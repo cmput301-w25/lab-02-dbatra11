@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     EditText addCityText;
     ConstraintLayout addCityLayout;
     public int selected_pos = -1;
+    public View lastSelectedView = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,10 +45,15 @@ public class MainActivity extends AppCompatActivity {
         cityAdapter = new ArrayAdapter<>(this, R.layout.content, dataList);
         cityList.setAdapter(cityAdapter);
         cityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+                if (lastSelectedView != null) {
+                    lastSelectedView.setBackgroundColor(Color.WHITE);
+                }
                 selected_pos = pos;
                 view.setBackgroundColor(Color.LTGRAY);
+                lastSelectedView = view;
             }
         });
         button.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     dataList.remove(selected_pos);
                     cityAdapter.notifyDataSetChanged();
                     selected_pos = -1; // reset selection
-                    
+
                 }
             }
         });
